@@ -1,17 +1,15 @@
 import pygame
-import constants
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from logger import log_state
 
-pygame.init()
-
-screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-
 def main():
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+ 
     print("Starting Asteroids with pygame version: pygame 2.6.1")
-    print(f"Screen width: {constants.SCREEN_WIDTH}")
-    print(f"Screen height: {constants.SCREEN_HEIGHT}")
-
-    
+    print(f"Screen width: {SCREEN_WIDTH}")
+    print(f"Screen height: {SCREEN_HEIGHT}")
+   
     # infinite game loop
     while True:
         log_state()
