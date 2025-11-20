@@ -9,7 +9,10 @@ def main():
     print("Starting Asteroids with pygame version: pygame 2.6.1")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
-   
+
+    current_clock = pygame.time.Clock()
+    #delta time for calculating FPS
+    dt = 0
     # infinite game loop
     while True:
         log_state()
@@ -21,6 +24,9 @@ def main():
         screen.fill("black")
         #make sure to call this last
         pygame.display.flip()
+        #the time that passed since last tick() call
+        #convert from milliseconds to seconds
+        dt = current_clock.tick(60)/1000
 
 
 if __name__ == "__main__":
