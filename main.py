@@ -30,7 +30,7 @@ def main():
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
-    Shot.containers = (updatable, drawable)
+    Shot.containers = (shots, updatable, drawable)
 
     asteroid_field = AsteroidField()
 
@@ -58,8 +58,16 @@ def main():
                 log_event("player_hit")
                 print("Game Over!")
                 sys.exit()
-
             
+            #The kill() method is built-in feature of pygame sprites. It removes the "killed" object from all of its groups so that the engine stops updating and drawing it.
+            for shot in shots:
+                if asteroid.collides_with(shot):
+                    log_event("asteroid_shot")
+                    asteroid.kill()
+                    shot.kill()
+
+
+        
         for draw in drawable:
             draw.draw(screen)
 

@@ -1,12 +1,13 @@
 import pygame
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, LINE_WIDTH, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOT_SPEED, SHOT_RADIUS
+from constants import PLAYER_RADIUS, LINE_WIDTH, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOT_SPEED, SHOT_RADIUS, PLAYER_SHOOT_COOLDOWN_SECONDS
 from shot import Shot
 
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.shot_cooldown_timer = 0
     
     # draws a triangle to represent the player ship
     def triangle(self):
@@ -48,12 +49,18 @@ class Player(CircleShape):
             self.move(dt * -1)
         
         # shoot
+        # decrease cooldown
+        if self.shot_cooldown_timer > 0.0:
+            self.shot_cooldown_timer -= dt
+
         if keys[pygame.K_SPACE]:
             self.shoot()
 
 
     def shoot(self):
-        bullet = Shot(self.position.x, self.position.y, SHOT_RADIUS)
-        bullet_direction = pygame.Vector2(0,1).rotate(self.rotation)
-        bullet.velocity = bullet_direction * PLAYER_SHOT_SPEED
+        if(self.shot_cooldown_timer <= 0.0):
+            self.shot_cooldown_timer = PLAYER_SHOOT_COOLDOWN_SECONDS
+            bullet = Shot(self.position.x, self.position.y, SHOT_RADIUS)
+            bullet_direction = pygame.Vector2(0,1).rotate(self.rotation)
+            bullet.velocity = bullet_direction * PLAYER_SHOT_SPEED
 
